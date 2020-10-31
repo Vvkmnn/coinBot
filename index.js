@@ -2,7 +2,12 @@ require('console-stamp')(console, 'HH:MM:ss')
 const Discordie = require('discordie')
 const client = new Discordie()
 const triviaAnswers = require('./trivia.json')
-const CONFIG = require('./config.json')
+
+if (process.argv.length > 2){
+CONFIG = require('./config_alt.json') 
+} else {
+CONFIG = require('./config_main.json')
+}
 
 let myUsername
 let listenChannel = null

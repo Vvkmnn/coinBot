@@ -2,15 +2,17 @@
   "name": "discord-test",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "forever index.js",
   "scripts": {
     "test": "echo \"You really think I would write tests for this??\" && exit 1",
     "update": "git pull --rebase origin master",
-    "start": "node ."
+    "start": "node .",
+    "dev": "concurrently \"npm run start -- --alt=2\" \"npm run start\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^5.3.0",
     "console-stamp": "^3.0.0-rc4.2",
     "discord.js": "^12.1.1",
     "discordie": "^0.11.0"
