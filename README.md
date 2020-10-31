@@ -24,3 +24,8 @@ A script to farm fake coins on the internet; forked from [this](https://github.c
  5. Go to the Discord channel where you want your bot to work and send `$start` (or `$s`)
  6. ???
  7. Profit 
+
+ ### Todo
+ - [ ] Add more of
+ [these](https://gist.github.com/bharadwaj6/ad759a0d9f9d56d3fa371d2b995e0fc3)
+ - [ ] Robbing mechanics using global public leaderboard?
