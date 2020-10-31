@@ -3,8 +3,11 @@
 A script to farm fake coins on the internet; forked from [this](https://github.com/spaceface777/DankMemerBotBot).
 
 ### Features
-- [Concurrency](https://www.npmjs.com/package/concurrently) for smurf scaling
+- [Concurrency](https://www.npmjs.com/package/concurrently) for active smurf scaling
+- [Background Process](https://pm2.keymetrics.io/) for even fancier background
+    scaling
 - Argument toggling for profiles
+- ++ `pls hunt` and possibly more later
 
 ### Disclaimer(s)
  - Using a user account as a bot is technically against Discord's ToS.  

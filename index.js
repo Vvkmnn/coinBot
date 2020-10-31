@@ -3,10 +3,15 @@ const Discordie = require('discordie')
 const client = new Discordie()
 const triviaAnswers = require('./trivia.json')
 
-if (process.argv.length > 2){
-CONFIG = require('./config_alt.json') 
+if (process.argv[2] == '2'){
+    CONFIG = require('./config_alt2.json') 
+    console.log('Loading alt2 config')
+} else if (process.argv[2] == '1'){
+    CONFIG = require('./config_alt.json') 
+    console.log('Loading alt1 config')
 } else {
-CONFIG = require('./config_main.json')
+    CONFIG = require('./config_main.json')
+    console.log('Loading main config')
 }
 
 let myUsername
@@ -58,6 +63,8 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       if (CONFIG.DEPOSIT)    createInterval('pls deposit all', 1000 * 41, 100, 2000)
 
       if (CONFIG.USE_FISH)   createInterval('pls fish',     1000 * 41, 100, 6000)
+      if (CONFIG.USE_HUNT)   createInterval('pls hunt',      1000 * 41, 100, 10000)
+
       if (CONFIG.USE_SEARCH) createInterval('pls search',   1000 * 41, 100, 15000)
       if (CONFIG.USE_TRIVIA) createInterval('pls trivia',   1000 * 41, 100, 24000)
       if (CONFIG.USE_BEG)    createInterval('pls beg',      1000 * 41, 100, 33000)
