@@ -8,8 +8,8 @@ A script to farm fake coins on the internet; forked from [this](https://github.c
 
 ### Disclaimer(s)
  - Using a user account as a bot is technically against Discord's ToS.  
- - This is very much for eductional purposes only; if you get banned from
-     anything; I told you so.
+ - This is for eductional purposes / jokes only; if you get banned from
+     anything, I told you so.
 
 ### Usage
  1. Make a copy of `config.example.json` into `config.json`
