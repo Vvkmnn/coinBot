@@ -1,17 +1,19 @@
 require('console-stamp')(console, 'HH:MM:ss')
 const Discordie = require('discordie')
-const client = new Discordie()
 const triviaAnswers = require('./trivia.json')
 
-if (process.argv[2] == '2'){
-    CONFIG = require('./config_alt2.json') 
-    var profile = 'alt2'
-} else if (process.argv[2] == '1'){
-    CONFIG = require('./config_alt.json') 
-    var profile = 'alt1'
+const client = new Discordie() //{ autoReconnect: true })
+// console.log(client.Channels.map(c => console.log(c)))
+
+if (process.argv[2] == '2') {
+  CONFIG = require('./config_alt2.json')
+  var profile = 'alt2'
+} else if (process.argv[2] == '1') {
+  CONFIG = require('./config_alt.json')
+  var profile = 'alt1'
 } else {
-    CONFIG = require('./config_main.json')
-    var profile = 'main'
+  CONFIG = require('./config_main.json')
+  var profile = 'main'
 }
 
 console.log(`Loading ${profile} profile`)
@@ -28,7 +30,7 @@ function createInterval(cmd, time, delay, offset) {
     listenChannel.sendMessage(cmd)
     setTimeout(i, time + (Math.random() * 2 - 1) * delay)
   }
-  
+
   setTimeout(i, offset)  // Run the interval once
 }
 
