@@ -19,9 +19,8 @@ A script to [farm fake coins on the internet](http://dankmemer.lol/); forked fro
  - Also got a few accounts justifiably blacklisted for throttling while testing, so yeah; go easy.
 
 ### Donate
-If you had fun, donate to the [Dank Memer
-team](https://www.patreon.com/dankmemerbot) for a cool bot, and something to
-push imaginary numbers with.
+If you're having fun, donate to the [Dank Memer
+team](https://www.patreon.com/dankmemerbot) for a cool bot.
 
 ### Usage
  1. Make a copy of `config.example.json` into `config.json`
