@@ -1,11 +1,14 @@
 # coinBot
 
+![](./clown.jpg)
+
 A script to farm fake coins on the internet; forked from [this](https://github.com/spaceface777/DankMemerBotBot).
 
 ### Features
-- [Concurrency](https://www.npmjs.com/package/concurrently) for active smurf scaling
+- [Concurrency](https://www.npmjs.com/package/concurrently) for active
+    horizontal scaling
 - [Background Process](https://pm2.keymetrics.io/) for even fancier background
-    scaling
+    management
 - Argument toggling for profiles
 - ++ `pls hunt` and possibly more later
 
@@ -13,6 +16,12 @@ A script to farm fake coins on the internet; forked from [this](https://github.c
  - Using a user account as a bot is technically against Discord's ToS.  
  - This is for eductional purposes / jokes only; if you get banned from
      anything, I told you so.
+ - Also got a few accounts justifiably blacklisted for throttling while testing, so yeah; go easy.
+
+### Donate
+If you had fun, donate to the [Dank Memer
+team](https://www.patreon.com/dankmemerbot) for a cool bot, and something to
+push imaginary numbers with.
 
 ### Usage
  1. Make a copy of `config.example.json` into `config.json`
@@ -21,7 +30,7 @@ A script to farm fake coins on the internet; forked from [this](https://github.c
     timeouts
  4. Run the script: `$ npm start`, or the concurrent version with `$ npm run
     dev'
- 5. Go to the Discord channel where you want your bot to work and send `$start` (or `$s`)
+ 5. Go to the Discord channel where you want your bot to work and try `$start` (or `$s`)
  6. ???
  7. Profit 
 
