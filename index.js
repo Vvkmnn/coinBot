@@ -21,8 +21,9 @@ console.log(`Loading ${profile} profile`)
 
 let myUsername = null
 let listenChannel = null // || backupChannel
-let running = false
+
 let loggedIn = false
+let running = false
 let wakeup = CONFIG.BACKUP_CHANNEL ? true : false
 
 function createInterval(cmd, time, delay, offset) {
@@ -37,16 +38,22 @@ function createInterval(cmd, time, delay, offset) {
   setTimeout(i, offset)  // Run the interval once
 }
 
+function timeNoise(t, e) {
+  t += (Math.random() > 0.5) ? - (Math.random() * e) : (Math.random() * e)
+  return t
+}
+
 client.connect({ token: CONFIG.TOKEN })
 
 client.Dispatcher.on('GATEWAY_READY', () => {
   let { username, discriminator } = client.User
-  myUsername = username
-  let loggedIn = true
 
+  myUsername = username
+  loggedIn = discriminator
 
   console.log(`Logged in to Discord as ${username}#${discriminator}`)
   console.log('-----------------------------' + '-'.repeat(username.length))
+
 })
 
 client.Dispatcher.on('MESSAGE_CREATE', e => {
@@ -71,7 +78,8 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
   // console.log(username)
   // Find command to handle the message
 
-  const private = e.message.guild.id == '718575818850435103'
+  // If message from safe server
+  const private = e.message.guild.id == CONFIG.BACKUP_SERVER
 
   switch (true) {
     // case (true): {
@@ -84,14 +92,14 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
 
     // Wake up
     // NOTE: myUsername is an async promise for login
-      case (myUsername && channel != listenChannel && running == false && wakeup == true && private): {
+    case (loggedIn && channel != listenChannel && running == false && wakeup == true && private): {
 
       // console.log(e.message.guild.textChannels.filter(t => t.id))
       let backupChannel = e.message.guild.textChannels.filter(t => t.id == CONFIG.BACKUP_CHANNEL)[0]
 
-      console.log(`Woken up via ${channel.name}, attempting wakeup message to ${backupChannel.name}`)
       // setTimeout(() => backupChannel.sendMessage(`$start - wakeup`), 5000)
 
+      console.log(`Woken up via ${channel.name}, attempting wakeup message to ${backupChannel.name}`)
       backupChannel.sendMessage(`$start - wakeup`)
       wakeup = false
 
@@ -101,7 +109,7 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
     // Start
     case /^\$s(tart)?/i.test(content): {
       console.log('Starting bot')
-
+      // if no sell, don't sell
 
       listenChannel = channel
       running = true
@@ -110,25 +118,28 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       // console.log(listenChannel.id)
 
       // + 1 sec
-      if (CONFIG.TOKEN) createInterval('pls bal', 1000 * 60 * 3, 50, 1000)
-      if (CONFIG.USE_HOURLY) createInterval('pls hourly', 1000 * 60 * 60, 500, 2000)
-      if (CONFIG.USE_DAILY) createInterval('pls daily', 1000 * 60 * 60 * 24, 500, 3000)
-      if (CONFIG.USE_WEEKLY) createInterval('pls weekly', 1000 * 60 * 60 * 24 * 7, 500, 4000)
-      if (CONFIG.USE_MONTHLY) createInterval('pls monthly', 2000000000, 500, 5000) // NOTE: 1000 * 60 * 60 * 24 * 30 too large for 32 bit Int in setTimeout
-      if (CONFIG.USE_YEARLY) createInterval('pls yearly', 2000000000, 500, 6000) // NOTE: 1000 * 60 * 60 * 24 * 365
+      if (CONFIG.TOKEN) createInterval('pls bal', 1000 * 60 * 3, 50, timeNoise(1000, 100))
+      if (CONFIG.USE_HOURLY) createInterval('pls hourly', 1000 * 60 * 60, 500, timeNoise(2000, 100))
+      if (CONFIG.USE_DAILY) createInterval('pls daily', 1000 * 60 * 60 * 24, 500, timeNoise(3000, 100))
+      if (CONFIG.USE_WEEKLY) createInterval('pls weekly', 1000 * 60 * 60 * 24 * 7, 500, timeNoise(4000, 100))
+      if (CONFIG.USE_MONTHLY) createInterval('pls monthly', 2000000000, 500, timeNoise(5000, 100)) // NOTE: 1000 * 60 * 60 * 24 * 30 too large for 32 bit Int in setTimeout
+      if (CONFIG.USE_YEARLY) createInterval('pls yearly', 2000000000, 500, timeNoise(6000, 100)) // NOTE: 1000 * 60 * 60 * 24 * 365
 
       // + 2 secs
-      if (CONFIG.USE_BEG) createInterval('pls beg', (profile == 'main') ? 1000 * 27 : 1000 * 48, 50, 11000)
-      if (CONFIG.DEPOSIT) createInterval('pls deposit all', 1000 * 37, 100, 13000)
+      if (CONFIG.USE_BEG) createInterval('pls beg', (profile == 'main') ? 1000 * 27 : 1000 * 48, 50, timeNoise(10000, 200))
+      if (CONFIG.DEPOSIT) createInterval('pls deposit all', 1000 * 37, 100, timeNoise(12000, 100))
 
       // + 3 secs
-      if (CONFIG.USE_FISH) createInterval('pls fish', (profile == 'main') ? 1000 * 34 : 1000 * 49, 100, 16000)
-      if (CONFIG.USE_HUNT) createInterval('pls hunt', (profile == 'main') ? 1000 * 43 : 1000 * 63, 100, 22000)
+      if (CONFIG.USE_FISH) createInterval('pls fish', (profile == 'main') ? 1000 * 34 : 1000 * 49, 200, timeNoise(16000, 100))
+      if (CONFIG.USE_HUNT) createInterval('pls hunt', (profile == 'main') ? 1000 * 43 : 1000 * 63, 200, timeNoise(22000, 100))
 
       // +4 secs
-      if (CONFIG.USE_SEARCH) createInterval('pls search', (profile == 'main') ? 1000 * 23 : 1000 * 34, 100, 26000)
-      if (CONFIG.USE_TRIVIA) createInterval('pls trivia', (profile == 'main') ? 1000 * 25 : 1000 * 30, 100, 31000)
-      if (CONFIG.USE_MEMES) createInterval('pls postmeme', (profile == 'main') ? 1000 * 50 : 1000 * 65, 100, 36000)
+      if (CONFIG.USE_SEARCH) createInterval('pls search', (profile == 'main') ? 1000 * 23 : 1000 * 34, 100, timeNoise(27000, 100))
+      if (CONFIG.USE_TRIVIA) createInterval('pls trivia', (profile == 'main') ? 1000 * 25 : 1000 * 30, 100, timeNoise(32000, 100))
+      if (CONFIG.USE_MEMES) createInterval('pls postmeme', (profile == 'main') ? 1000 * 50 : 1000 * 65, 100, timeNoise(37000, 100))
+
+      // + 5 secs
+      // setTimeout(() => console.log('pausing'), Math.random() * 5000)
 
       break
     }
@@ -145,30 +156,6 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
     // Clear
     case /^\$c(lear)?$/i.test(content) && listenChannel != null: {
       if (listenChannel) listenChannel.sendMessage('`' + '\n'.repeat(50) + '`')
-      break
-    }
-
-    // Post meme
-    case /type of meme/i.test(content) && listenChannel != null: {
-      listenChannel.sendMessage('d')
-
-      break
-    }
-
-    // Search
-    case /in chat\.\n`(.+?)`/.test(content) && listenChannel != null: {
-      const places = content
-        .split('\n')[1]
-        .replace(/`/g, '')
-        .split(',')
-        .filter(item => !CONFIG.SEARCH_AVOID_PLACES.includes(item.trim()))
-
-      // TODO: Sort places based on the amount of money you win
-      // reddit.com/r/dankmemer/comments/fur9k2/sharing_my_stats_on_pls_search
-
-      console.log(` ↳ Searching '${places[0] || 'NOWHERE - I DONT WANT TO DIE'}'`)
-      listenChannel.sendMessage(places[0] || 'NOWHERE - I DONT WANT TO DIE')
-
       break
     }
 
@@ -195,28 +182,89 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       }
     }
 
-    // TODO Auto Powerup ++ Share?
-    case /(deposited)/.test(content) && listenChannel != null:
-      //   listenChannel.sendMessage(`pls withdraw 20000`)
-      //   listenChannel.sendMessage(`pls give @502632119831363585 20000`)
+    // Post meme
+    case /type of meme/i.test(content) && listenChannel != null: {
+      const meme_types = ['n', 'e', 'r', 'd']
+      const random_meme = meme_types[Math.floor(Math.random() * meme_types.length)]
 
-      // listenChannel.sendMessage(`pls use tidepod`)
-      // listenChannel.sendMessage(`y`)
-      // listenChannel.sendMessage(`pls use cheese`)
-      // listenChannel.sendMessage(`y`)
+      console.log(` ↳ Posting '${random_meme}'`)
+      listenChannel.sendMessage(random_meme)
 
-      // TODO Sell animals?
-      if (Math.random() > 0.5) {
-        listenChannel.sendMessage(`pls sell rarefish all`)
-        listenChannel.sendMessage(`pls sell fish all`)
-      } else {
-        listenChannel.sendMessage(`pls sell boar all`)
-        listenChannel.sendMessage(`pls sell duck all`)
-        listenChannel.sendMessage(`pls sell skunk all`)
+      break
+    }
+
+    // Type given text (events and prevent fishing rod from breaking)
+    case /Typ(?:e|ing) `(.+?)`/i.test(content) && listenChannel != null: {
+
+      const [_, text] = content.match(/Typ(?:e|ing) `(.+?)`/i)
+
+      listenChannel.sendTyping()
+      for (const i of [...Array(5).keys()]) {
+        console.log(` ↳ Typing '${text}'`)
+        setTimeout(() => listenChannel.sendMessage(text), timeNoise(100, 10))
       }
 
       break
+    }
+
+    // Search
+    case /in chat\.\n`(.+?)`/.test(content) && listenChannel != null: {
+      const places = content
+        .split('\n')[1]
+        .replace(/`/g, '')
+        .split(',')
+        .filter(item => !CONFIG.SEARCH_AVOID_PLACES.includes(item.trim()))
+
+      // TODO: Sort places based on the amount of money you win
+      // reddit.com/r/dankmemer/comments/fur9k2/sharing_my_stats_on_pls_search
+
+      console.log(` ↳ Searching '${places[0] || 'nowhere'}'`)
+      listenChannel.sendMessage(places[0] || 'nowhere')
+
       break
+    }
+
+    // TODO Auto Powerup ++ Share?
+    case (/(deposited)/.test(content) && listenChannel != null): {
+      if (!CONFIG.SELL_ITEMS) break // if no sell, don't sell
+      //   listenChannel.sendMessage(`pls withdraw 20000`)
+      //   listenChannel.sendMessage(`pls give @502632119831363585 20000`)
+
+
+      const sell_items = ["rarefish", "fish", "duck", "boar", "skunk", "rabbit"]
+      const random_sell_item = sell_items[Math.floor(Math.random() * sell_items.length)]
+
+      const use_items = ["banknote", "candy", "padlock", "landmine", "landmine", "fakeid"]
+      const random_use_item = use_items[Math.floor(Math.random() * use_items.length)]
+
+      console.log(`↳ Selling all ${random_sell_item}, using all ${random_use_item}'`)
+      listenChannel.sendMessage(`pls sell ${random_sell_item} all`)
+      listenChannel.sendMessage(`pls use ${random_use_item} all`)
+
+      break
+    }
+
+    // NOTE: Old Sell received items
+    // case /(?:brought back|at least you found|sent you|, and) (?:(\d+)|a) (?:<:\w+:\d+> )?(?::\w+: )?(?:\*\*)?([\w\s]+)/i.test(content) && listenChannel != null: {
+    //   if (!CONFIG.SELL_ITEMS) break // if no sell, don't sell
+
+    //   NOTE: This bit is nice
+    //   const [_, amount = 1, name] = content.match(/(?:brought back|at least you found|sent you|, and) (?:(\d+)|a) (?:<:\w+:\d+> )?(?::\w+: )?(?:\*\*)?([\w\s]+)/i)
+    //   console.log(` ↳ Recieved ${amount} ${name}`)
+
+    //   //TODO: Add whitelist for items to sell
+    //   if (/laptop|note|rifle|fishing|cookie|pink/.test(name)) {
+    //   } else {
+
+    //     // console.log(name.toLowerCase().split(" ").reverse())
+    //     const sell_name = name.toLowerCase().split(" ").reverse()[1];
+    //     console.log(` ↳ Selling ${amount} ${sell_name}`)
+    //     listenChannel.sendMessage(`pls sell ${sell_name} ${amount}`)
+    //   }
+
+    //   break
+    // }
+
 
     // TODO Buy missing items
     case /(don't have a fishing pole)/i.test(content) && listenChannel != null: {
@@ -241,40 +289,6 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
     }
 
     // TODO Buy anything on sale??
-
-    // Sell received items
-    case /(?:brought back|at least you found|sent you|, and) (?:(\d+)|a) (?:<:\w+:\d+> )?(?::\w+: )?(?:\*\*)?([\w\s]+)/i.test(content) && listenChannel != null: {
-      if (!CONFIG.SELL_ITEMS) break
-
-      const [_, amount = 1, name] = content.match(/(?:brought back|at least you found|sent you|, and) (?:(\d+)|a) (?:<:\w+:\d+> )?(?::\w+: )?(?:\*\*)?([\w\s]+)/i)
-      console.log(` ↳ Recieved ${amount} ${name}`)
-      listenChannel.sendMessage(`pls use bank note all`)
-      listenChannel.sendMessage(`pls use candy all`)
-
-
-      //TODO: Add whitelist for items to sell
-      if (/laptop|note|rifle|fishing|cookie|pink/.test(name)) {
-      } else {
-
-        // console.log(name.toLowerCase().split(" ").reverse())
-        const sell_name = name.toLowerCase().split(" ").reverse()[1];
-        console.log(` ↳ Selling ${amount} ${sell_name}`)
-        listenChannel.sendMessage(`pls sell ${sell_name} ${amount}`)
-      }
-
-      break
-    }
-
-    // Type given text (events and prevent fishing rod from breaking)
-    case /Typ(?:e|ing) `(.+?)`/i.test(content) && listenChannel != null: {
-      const [_, text] = content.match(/Typ(?:e|ing) `(.+?)`/i)
-
-      console.log(` ↳ Typing '${text}'`)
-      listenChannel.sendTyping()
-      setTimeout(() => listenChannel.sendMessage(text), 100 + 40 * text.length)
-
-      break
-    }
 
     // Any other message
     default: {

@@ -4,11 +4,11 @@
     "description": "A farming bot",
     "main": "nodemon index.js",
     "scripts": {
-        "test": "echo \"Lol\" && exit 1",
+        "test": "echo \"honk honk\" && exit 1",
         "update": "git pull --rebase origin master",
-        "start": "nodemon -x \"node index.js 0 || touch index.js\"",
-        "start1": "nodemon -x \"node index.js 1 || touch index.js\"",
-        "start2": "nodemon -x \"node index.js 2 || touch index.js\"",
+        "start": "nodemon index.js 0 ",
+        "start1": "nodemon index.js 1 ",
+        "start2": "nodemon index.js 2",
         "dev": "concurrently \"npm run start1\" \"npm run start2\" \"npm run start\"",
         "pm2": "pm2 -f --restart-delay=10 start index.js -- 0 && pm2 -f --restart-delay=10 start index.js -- 1 && pm2 -f --restart-delay=10 start index.js -- 2 && pm2 flush && pm2 logs",
         "dpm2": "pm2 delete all"

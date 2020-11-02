@@ -1,5 +1,8 @@
 {
-    "TOKEN": "your.discord.account.token",
+    "TOKEN": "your.discord.token",
+    "BACKUP_CHANNEL": "",
+    "BACKUP_SERVER": "",
+
     "DEPOSIT": true,
     "SELL_ITEMS": true,
 
@@ -17,6 +20,17 @@
     "USE_TRIVIA": true,
 
     "TRIVIA_CORRECT_CHANCE": 0.75,
+
+    "ITEM_IDS": {
+        "common fish": "fish",
+        "rare fish": "rarefish",
+        "rabbit": "rabbit",
+        "padlock": "padlock",
+        "box of sand": "sand",
+        "chill pill": "chillpill",
+        "candy": "candy",
+        "pink phallic object": "pinkphallicobject"
+    },
 
     "SEARCH_AVOID_PLACES": [
         "sewer",
