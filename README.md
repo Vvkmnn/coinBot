@@ -2,7 +2,7 @@
 
 A script to [farm fake coins on the internet](http://dankmemer.lol/); forked from [this](https://github.com/spaceface777/DankMemerBotBot).
 
-![](./clown.jpg)
+![](./screenshot.png)
 
 ### Features
 
@@ -37,4 +37,4 @@ team](https://www.patreon.com/dankmemerbot) for a cool bot.
 6.  ???
 7.  Profit
 
-![](./screenshot.png)
+![](./clown.jpg)
