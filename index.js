@@ -126,7 +126,7 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       if (CONFIG.USE_YEARLY) createInterval('pls yearly', 2000000000, 500, timeNoise(6000, 100)) // NOTE: 1000 * 60 * 60 * 24 * 365
 
       // + 2 secs
-      if (CONFIG.USE_BEG) createInterval('pls beg', (profile == 'main') ? 1000 * 27 : 1000 * 48, 50, timeNoise(10000, 200))
+      if (CONFIG.USE_BEG) createInterval('pls beg', (profile == 'main') ? 1000 * 27 : 1000 * 48, 100, timeNoise(11000, 200))
       if (CONFIG.DEPOSIT) createInterval('pls deposit all', 1000 * 37, 100, timeNoise(12000, 100))
 
       // + 3 secs
@@ -267,16 +267,16 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
 
 
     // TODO Buy missing items
-    case /(don't have a fishing pole)/i.test(content) && listenChannel != null: {
-      listenChannel.sendMessage(`pls withdraw 20000`)
-      listenChannel.sendMessage(`pls buy fishing rod`)
+    case /(buy a laptop)/i.test(content) && listenChannel != null: {
+      listenChannel.sendMessage(`pls withdraw 5000`)
+      listenChannel.sendMessage(`pls buy laptop`)
 
       break
     }
 
-    case /(buy a laptop)/i.test(content) && listenChannel != null: {
-      listenChannel.sendMessage(`pls withdraw 5000`)
-      listenChannel.sendMessage(`pls buy laptop`)
+    case /(don't have a fishing pole)/i.test(content) && listenChannel != null: {
+      listenChannel.sendMessage(`pls withdraw 20000`)
+      listenChannel.sendMessage(`pls buy fishing rod`)
 
       break
     }
