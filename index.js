@@ -122,25 +122,25 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       // console.log(listenChannel.id)
 
       // + 0 sec
-      if (CONFIG.TOKEN) createInterval('pls bal', 1000 * 60 * 3, 50, timeNoise(1000, 100))
-      if (CONFIG.USE_HOURLY) createInterval('pls hourly', 1000 * 60 * 60, 500, timeNoise(2000, 100))
-      if (CONFIG.USE_DAILY) createInterval('pls daily', 1000 * 60 * 60 * 24, 500, timeNoise(3000, 100))
-      if (CONFIG.USE_WEEKLY) createInterval('pls weekly', 1000 * 60 * 60 * 24 * 7, 500, timeNoise(4000, 100))
-      if (CONFIG.USE_MONTHLY) createInterval('pls monthly', 2000000000, 500, timeNoise(5000, 100)) // NOTE: 1000 * 60 * 60 * 24 * 30 too large for 32 bit Int in setTimeout
-      if (CONFIG.USE_YEARLY) createInterval('pls yearly', 2000000000, 500, timeNoise(6000, 100)) // NOTE: 1000 * 60 * 60 * 24 * 365
+      if (CONFIG.TOKEN) createInterval('pls bal', 1000 * 60 * 3, 50, timeNoise(1000, 50))
+      if (CONFIG.USE_HOURLY) createInterval('pls hourly', 1000 * 60 * 60, 500, timeNoise(2000, 50))
+      if (CONFIG.USE_DAILY) createInterval('pls daily', 1000 * 60 * 60 * 24, 500, timeNoise(3000, 50))
+      if (CONFIG.USE_WEEKLY) createInterval('pls weekly', 1000 * 60 * 60 * 24 * 7, 500, timeNoise(4000, 50))
+      if (CONFIG.USE_MONTHLY) createInterval('pls monthly', 2000000000, 500, timeNoise(5000, 50)) // NOTE: 1000 * 60 * 60 * 24 * 30 too large for 32 bit Int in setTimeout
+      if (CONFIG.USE_YEARLY) createInterval('pls yearly', 2000000000, 500, timeNoise(6000, 50)) // NOTE: 1000 * 60 * 60 * 24 * 365
 
       // + 1 secs
       if (CONFIG.USE_BEG) createInterval('pls beg', (profile == 'main') ? 1000 * 27 : 1000 * 48, 100, timeNoise(11000, 200))
-      if (CONFIG.DEPOSIT) createInterval('pls deposit all', 1000 * 29, 100, timeNoise(12000, 100))
+      if (CONFIG.DEPOSIT) createInterval('pls deposit all', 1000 * 29, 100, timeNoise(12000, 50))
 
       // + 2 secs
-      if (CONFIG.USE_FISH) createInterval('pls fish', (profile == 'main') ? 1000 * 34 : 1000 * 49, 200, timeNoise(16000, 100))
-      if (CONFIG.USE_HUNT) createInterval('pls hunt', (profile == 'main') ? 1000 * 43 : 1000 * 63, 200, timeNoise(22000, 100))
+      if (CONFIG.USE_FISH) createInterval('pls fish', (profile == 'main') ? 1000 * 34 : 1000 * 49, 200, timeNoise(16000, 50))
+      if (CONFIG.USE_HUNT) createInterval('pls hunt', (profile == 'main') ? 1000 * 43 : 1000 * 63, 200, timeNoise(22000, 50))
 
       // +3 secs
-      if (CONFIG.USE_SEARCH) createInterval('pls search', (profile == 'main') ? 1000 * 23 : 1000 * 34, 100, timeNoise(27000, 100))
-      if (CONFIG.USE_TRIVIA) createInterval('pls trivia', (profile == 'main') ? 1000 * 25 : 1000 * 30, 100, timeNoise(32000, 100))
-      if (CONFIG.USE_MEMES) createInterval('pls postmeme', (profile == 'main') ? 1000 * 50 : 1000 * 65, 100, timeNoise(37000, 100))
+      if (CONFIG.USE_SEARCH) createInterval('pls search', (profile == 'main') ? 1000 * 23 : 1000 * 34, 100, timeNoise(27000, 50))
+      if (CONFIG.USE_TRIVIA) createInterval('pls trivia', (profile == 'main') ? 1000 * 25 : 1000 * 30, 100, timeNoise(32000, 50))
+      if (CONFIG.USE_MEMES) createInterval('pls postmeme', (profile == 'main') ? 1000 * 50 : 1000 * 65, 100, timeNoise(37000, 50))
 
       // +4 secs
       setTimeout(() => console.log('pausing'), Math.random() * 4000)
@@ -188,7 +188,7 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
 
     // Post meme
     case /type of meme/i.test(content) && listenChannel != null: {
-      const meme_types = ['n', 'e', 'r', 'd']
+      const meme_types = ['n', 'r', 'd'] // NOTE: Die a lot on 'e'
       const random_meme = meme_types[Math.floor(Math.random() * meme_types.length)]
 
       console.log(` ↳ Posting '${random_meme}'`)
@@ -203,7 +203,7 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       const [_, text] = content.match(/Typ(?:e|ing) `(.+?)`/i)
 
       listenChannel.sendTyping()
-      for (const i of [...Array(5).keys()]) {
+      for (const i of [...Array(9).keys()]) {
         console.log(` ↳ Typing '${text}'`)
         setTimeout(() => listenChannel.sendMessage(text), timeNoise(100, 10))
       }
@@ -218,6 +218,7 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
         .replace(/`/g, '')
         .split(',')
         .filter(item => !CONFIG.SEARCH_AVOID_PLACES.includes(item.trim()))
+      // TODO: Just import here as defaults, and rework the JSOn files
 
       // TODO: Sort places based on the amount of money you win
       // reddit.com/r/dankmemer/comments/fur9k2/sharing_my_stats_on_pls_search
@@ -238,12 +239,13 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       const sell_items = ["rarefish", "fish", "duck", "boar", "skunk", "rabbit"]
       const random_sell_item = sell_items[Math.floor(Math.random() * sell_items.length)]
 
-      const use_items = ["banknote", "candy", "padlock", "landmine", "landmine", "fakeid", "apple"]
+      const use_items = ["banknote", "candy", "padlock", "apple", "tidepod", "cheese"] // fakeID
       const random_use_item = use_items[Math.floor(Math.random() * use_items.length)]
 
       console.log(`↳ Selling all ${random_sell_item}, using all ${random_use_item}'`)
       listenChannel.sendMessage(`pls sell ${random_sell_item} all`)
       listenChannel.sendMessage(`pls use ${random_use_item} all`)
+      setTimeout(() => listenChannel.sendMessage(`y`), timeNoise(100, 10))
 
       break
     }

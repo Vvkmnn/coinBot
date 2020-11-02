@@ -11,8 +11,8 @@
         "start2": "nodemon index.js 2",
         "start3": "nodemon index.js 3",
         "dev": "concurrently \"npm run start1\" \"npm run start2\" \"npm run start\"",
-        "prod": "pm2 -f --restart-delay=10 start index.js -- 0 && pm2 -f --restart-delay=10 start index.js -- 1 && pm2 -f --restart-delay=10 start index.js -- 2 && pm2 -f --restart-delay=10 start index.js -- 3 pm2 flush && pm2 monit",
-        "restart": "pm2 delete 0 1 2 3 && npm run prod",
+        "prod": "pm2 -f --restart-delay=10 start index.js -- 0 && pm2 -f --restart-delay=10 start index.js -- 1 && pm2 -f --restart-delay=10 start index.js -- 2 && pm2 -f --restart-delay=10 start index.js -- 3 && pm2 -f --restart-delay=10 start index.js -- 4 && pm2 monit",
+        "restart": "pm2 delete all && npm run prod",
         "logs": "pm2 logs"
     },
     "author": "",
