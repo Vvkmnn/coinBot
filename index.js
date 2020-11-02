@@ -6,12 +6,10 @@ const triviaAnswers = require('./trivia.json')
 
 const client = new Discordie() //{ autoReconnect: true })
 
-if (process.argv[2] == '2') {
-  CONFIG = require('./config_alt2.json')
-  var profile = 'alt2'
-} else if (process.argv[2] == '1') {
-  CONFIG = require('./config_alt1.json')
-  var profile = 'alt1'
+if (process.argv[2] != 0) {
+  PROCESS_NUMBER = process.argv[2]
+  CONFIG = require(`./config_alt${PROCESS_NUMBER}.json`)
+  var profile = `alt${PROCESS_NUMBER}`
 } else {
   CONFIG = require('./config_main.json')
   var profile = 'main'
@@ -117,7 +115,7 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       // Show ID
       // console.log(listenChannel.id)
 
-      // + 1 sec
+      // + 0 sec
       if (CONFIG.TOKEN) createInterval('pls bal', 1000 * 60 * 3, 50, timeNoise(1000, 100))
       if (CONFIG.USE_HOURLY) createInterval('pls hourly', 1000 * 60 * 60, 500, timeNoise(2000, 100))
       if (CONFIG.USE_DAILY) createInterval('pls daily', 1000 * 60 * 60 * 24, 500, timeNoise(3000, 100))
@@ -125,21 +123,21 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       if (CONFIG.USE_MONTHLY) createInterval('pls monthly', 2000000000, 500, timeNoise(5000, 100)) // NOTE: 1000 * 60 * 60 * 24 * 30 too large for 32 bit Int in setTimeout
       if (CONFIG.USE_YEARLY) createInterval('pls yearly', 2000000000, 500, timeNoise(6000, 100)) // NOTE: 1000 * 60 * 60 * 24 * 365
 
-      // + 2 secs
+      // + 1 secs
       if (CONFIG.USE_BEG) createInterval('pls beg', (profile == 'main') ? 1000 * 27 : 1000 * 48, 100, timeNoise(11000, 200))
-      if (CONFIG.DEPOSIT) createInterval('pls deposit all', 1000 * 37, 100, timeNoise(12000, 100))
+      if (CONFIG.DEPOSIT) createInterval('pls deposit all', 1000 * 29, 100, timeNoise(12000, 100))
 
-      // + 3 secs
+      // + 2 secs
       if (CONFIG.USE_FISH) createInterval('pls fish', (profile == 'main') ? 1000 * 34 : 1000 * 49, 200, timeNoise(16000, 100))
       if (CONFIG.USE_HUNT) createInterval('pls hunt', (profile == 'main') ? 1000 * 43 : 1000 * 63, 200, timeNoise(22000, 100))
 
-      // +4 secs
+      // +3 secs
       if (CONFIG.USE_SEARCH) createInterval('pls search', (profile == 'main') ? 1000 * 23 : 1000 * 34, 100, timeNoise(27000, 100))
       if (CONFIG.USE_TRIVIA) createInterval('pls trivia', (profile == 'main') ? 1000 * 25 : 1000 * 30, 100, timeNoise(32000, 100))
       if (CONFIG.USE_MEMES) createInterval('pls postmeme', (profile == 'main') ? 1000 * 50 : 1000 * 65, 100, timeNoise(37000, 100))
 
-      // + 5 secs
-      // setTimeout(() => console.log('pausing'), Math.random() * 5000)
+      // +4 secs
+      setTimeout(() => console.log('pausing'), Math.random() * 4000)
 
       break
     }
@@ -234,7 +232,7 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       const sell_items = ["rarefish", "fish", "duck", "boar", "skunk", "rabbit"]
       const random_sell_item = sell_items[Math.floor(Math.random() * sell_items.length)]
 
-      const use_items = ["banknote", "candy", "padlock", "landmine", "landmine", "fakeid"]
+      const use_items = ["banknote", "candy", "padlock", "landmine", "landmine", "fakeid", "apple"]
       const random_use_item = use_items[Math.floor(Math.random() * use_items.length)]
 
       console.log(`↳ Selling all ${random_sell_item}, using all ${random_use_item}'`)

@@ -1,8 +1,8 @@
 # coinBot
 
-A script to [farm fake coins on the internet](http://dankmemer.lol/); forked from [this](https://github.com/spaceface777/DankMemerBotBot).
-
 ![](./clown.jpg)
+
+A script to [farm fake coins on the internet](http://dankmemer.lol/); forked from [this](https://github.com/spaceface777/DankMemerBotBot).
 
 ![](./screenshot.png)
 
