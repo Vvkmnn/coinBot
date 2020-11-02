@@ -4,7 +4,7 @@ A script to [farm fake coins on the internet](http://dankmemer.lol/); forked fro
 
 ![](./clown.jpg)
 
-![](./screenshot.jpg)
+![](./screenshot.png)
 
 ### Features
 
