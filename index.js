@@ -1,5 +1,11 @@
 require('console-stamp')(console, 'HH:MM:ss')
 
+// TODO  Add more of these https://gist.github.com/bharadwaj6/ad759a0d9f9d56d3fa371d2b995e0fc3
+// TODO Robbing mechanics using global public leaderboard?
+// TODO Add `pls work` and maybe `pls pet` stuff`
+// TODO TypeScript
+
+
 const Discordie = require('discordie')
 
 const triviaAnswers = require('./trivia.json')

@@ -1,10 +1,8 @@
-![](./clown.jpg)
-
 # coinBot
 
 A script to [farm fake coins on the internet](http://dankmemer.lol/); forked from [this](https://github.com/spaceface777/DankMemerBotBot).
 
-![](./screenshot.png)
+![](./clown.jpg)
 
 ### Features
 
@@ -39,10 +37,4 @@ team](https://www.patreon.com/dankmemerbot) for a cool bot.
 6.  ???
 7.  Profit
 
-### Todo
-
--   [ ] Add more of
-        [these](https://gist.github.com/bharadwaj6/ad759a0d9f9d56d3fa371d2b995e0fc3)
--   [ ] Robbing mechanics using global public leaderboard?
--   [ ] Add `pls work` and maybe `pls pet` stuff`
--   [ ] TypeScript
+![](./screenshot.png)
